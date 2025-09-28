@@ -1,0 +1,16 @@
+﻿@model ExamSystem.Models.Exam
+@{
+    ViewData["Title"] = "تفاصيل الامتحان";
+}
+<h2>@ViewData["Title"]</h2>
+<div class="card">
+    <div class="card-body">
+        <h4>@Model.Title</h4>
+        <p><b>تاريخ البداية:</b> @(Model.StartTime.HasValue? Model.StartTime.Value.ToString("yyyy-MM-dd HH:mm") : "غير محدد")</p>
+        <p><b>تاريخ النهاية:</b> @(Model.EndTime.HasValue? Model.EndTime.Value.ToString("yyyy-MM-dd HH:mm") : "غير محدد")</p>
+        <p><b>الوصف:</b> @Model.Description</p>
+        <p><b>عدد الأسئلة:</b> @(Model.Questions?.Count ?? 0)</p>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">تعديل</a>
+        <a asp-action="Index" class="btn btn-secondary">رجوع</a>
+    </div>
+</div>

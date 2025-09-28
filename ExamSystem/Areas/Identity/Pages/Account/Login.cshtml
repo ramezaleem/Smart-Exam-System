@@ -1,0 +1,35 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "تسجيل الدخول";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<h2 class="text-center mb-4 text-primary"><i class="fa fa-sign-in-alt"></i> تسجيل الدخول</h2>
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="mb-3 input-group">
+        <span class="input-group-text bg-light"><i class="fa fa-envelope"></i></span>
+        <input asp-for="Input.Email" class="form-control" placeholder="البريد الإلكتروني" />
+    </div>
+    <span asp-validation-for="Input.Email" class="text-danger"></span>
+    <div class="mb-3 input-group">
+        <span class="input-group-text bg-light"><i class="fa fa-lock"></i></span>
+        <input asp-for="Input.Password" class="form-control" placeholder="كلمة المرور" />
+    </div>
+    <span asp-validation-for="Input.Password" class="text-danger"></span>
+    <div class="form-check mb-3">
+        <input asp-for="Input.RememberMe" class="form-check-input" />
+        <label asp-for="Input.RememberMe" class="form-check-label">تذكرني</label>
+    </div>
+    <button type="submit" class="btn btn-success w-100 mb-2"><i class="fa fa-sign-in-alt"></i> دخول</button>
+    <div class="text-center mt-2">
+        <a asp-page="./Register" class="text-decoration-none"><i class="fa fa-user-plus"></i> إنشاء حساب جديد</a>
+        |
+        <a asp-page="./ForgotPassword" class="text-decoration-none"><i class="fa fa-question-circle"></i> نسيت كلمة المرور؟</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

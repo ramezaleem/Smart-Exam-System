@@ -1,0 +1,62 @@
+﻿@model ExamSystem.Models.StudentExam
+@{
+    ViewData["Title"] = "نتيجة الامتحان";
+    var allQuestions = (List<ExamSystem.Models.Question>)ViewBag.AllQuestions;
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<h2 class="mb-4 text-info">
+    <i class="fa fa-award"></i> نتيجتك في الامتحان:
+    <span class="badge bg-primary">@Model.Exam.Title</span>
+</h2>
+
+<div class="alert alert-success">
+    <h4>
+        <i class="fa fa-star text-warning"></i> درجتك:
+        <span class="badge bg-success">@Model.Score / @allQuestions.Count</span>
+    </h4>
+    <h5>
+        <i class="fa fa-percentage text-info"></i> النسبة المئوية:
+        <span class="badge bg-info">@Model.Percentage.ToString("F2")%</span>
+    </h5>
+</div>
+
+@foreach (var q in allQuestions)
+{
+    var answer = Model.Answers.FirstOrDefault(a => a.QuestionId == q.Id);
+    <div class="card mb-3 shadow-sm @(answer != null && q.Options.FirstOrDefault(o => o.Id == answer.SelectedOptionId)?.IsCorrect == true ? "border-success" : "border-danger")">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fa fa-question-circle"></i> @q.Text</h5>
+            <ul class="list-group">
+                @foreach (var opt in q.Options)
+                {
+                    var isSelected = answer != null && answer.SelectedOptionId == opt.Id;
+                    var isCorrect = opt.IsCorrect;
+                    <li class="list-group-item d-flex justify-content-between align-items-center @(isCorrect ? "list-group-item-success" : (isSelected ? "list-group-item-danger" : ""))">
+                        <span>
+                            @if (isCorrect)
+                            {
+                                <i class="fa fa-check-circle text-success"></i>
+                            }
+                            @if (isSelected && !isCorrect)
+                            {
+                                <i class="fa fa-times-circle text-danger"></i>
+                            }
+                            @opt.Text
+                        </span>
+                        @if (isSelected)
+                        {
+                            <span class="badge bg-warning text-dark">إجابتك</span>
+                        }
+                        @if (isCorrect)
+                        {
+                            <span class="badge bg-success">الإجابة الصحيحة</span>
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+
+<a href="/StudentExam/AvailableExams" class="btn btn-primary mt-3"><i class="fa fa-arrow-left"></i> رجوع للامتحانات</a>

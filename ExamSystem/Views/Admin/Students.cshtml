@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ExamSystem.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "إدارة الطلاب";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<!-- إضافة Bootstrap CSS/CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<h2 class="mb-4 text-warning"><i class="fa fa-user-graduate"></i> إدارة الطلاب</h2>
+<table class="table table-striped table-hover shadow">
+    <thead class="table-warning">
+        <tr>
+            <th>اسم المستخدم</th>
+            <th>البريد الإلكتروني</th>
+            <th>تاريخ الإنشاء</th>
+            <th>الإجراءات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td><i class="fa fa-user text-warning"></i> @s.UserName</td>
+                <td>@s.Email</td>
+                <td>@s.Id.Substring(0, 8)</td>
+                <td>
+                    <button class="btn btn-danger btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#confirmDeleteModal"
+                            data-userid="@s.Id"
+                            data-username="@s.UserName">
+                        <i class="fa fa-trash"></i> حذف
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Admin/Dashboard" class="btn btn-secondary mt-3"><i class="fa fa-arrow-left"></i> رجوع للوحة التحكم</a>
+
+<!-- Modal تأكيد الحذف -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="deleteForm" method="post" asp-action="DeleteStudent">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title" id="confirmDeleteLabel">تأكيد الحذف</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    هل أنت متأكد من حذف الطالب <strong id="userToDelete"></strong> ؟
+                    <input type="hidden" name="id" id="deleteUserId" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-danger">حذف</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap و JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    var confirmDeleteModal = document.getElementById('confirmDeleteModal')
+    confirmDeleteModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var userId = button.getAttribute('data-userid');
+        var userName = button.getAttribute('data-username');
+
+        var modalBodyUser = confirmDeleteModal.querySelector('#userToDelete');
+        var deleteUserIdInput = confirmDeleteModal.querySelector('#deleteUserId');
+
+        modalBodyUser.textContent = userName;
+        deleteUserIdInput.value = userId;
+    });
+</script>

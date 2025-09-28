@@ -1,0 +1,38 @@
+﻿@model List<ExamSystem.Models.Question>
+@{
+    ViewData["Title"] = "أسئلة الامتحان";
+    var examId = ViewBag.ExamId;
+    var examTitle = ViewBag.ExamTitle;
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<h2 class="mb-4 text-primary"><i class="fa-solid fa-question-circle"></i> أسئلة امتحان: <span class="badge bg-info">@examTitle</span></h2>
+<a class="btn btn-success mb-3" asp-action="Create" asp-route-examId="@examId"><i class="fa fa-plus"></i> إضافة سؤال جديد</a>
+<div class="row">
+    @foreach (var q in Model)
+    {
+        <div class="col-md-6 mb-4">
+            <div class="card shadow border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-dark"><i class="fa-solid fa-circle-question text-warning"></i> @q.Text</h5>
+                    <ul class="list-group mb-2">
+                        @foreach (var opt in q.Options)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center @(opt.IsCorrect ? "list-group-item-success" : "")">
+                                <span><i class="fa fa-check-circle text-success me-1" style="@(opt.IsCorrect ? "" : "display:none;")"></i>@opt.Text</span>
+                                @if (opt.IsCorrect)
+                                {
+                                    <span class="badge bg-success">إجابة صحيحة</span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                    <div class="d-flex justify-content-end gap-2">
+                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@q.Id"><i class="fa fa-eye"></i> تفاصيل</a>
+                        <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@q.Id"><i class="fa fa-edit"></i> تعديل</a>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@q.Id"><i class="fa fa-trash"></i> حذف</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

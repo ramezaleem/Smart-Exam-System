@@ -1,0 +1,13 @@
+﻿@model ExamSystem.Models.Exam
+@{
+    ViewData["Title"] = "حذف الامتحان";
+}
+<h2>@ViewData["Title"]</h2>
+<div class="alert alert-danger">
+    <h4>هل أنت متأكد أنك تريد حذف الامتحان: @Model.Title ؟</h4>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">تأكيد الحذف</button>
+        <a asp-action="Index" class="btn btn-secondary">إلغاء</a>
+    </form>
+</div>

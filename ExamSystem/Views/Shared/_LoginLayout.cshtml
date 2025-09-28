@@ -1,0 +1,55 @@
+﻿@* Views/Shared/_LoginLayout.cshtml *@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تسجيل الدخول - ExamSystem</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-box {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 100%;
+            opacity: 0.97;
+        }
+
+        .login-logo {
+            font-size: 2.5rem;
+            color: #185a9d;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .login-icon {
+            color: #43cea2;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+    </style>
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="login-box mx-auto">
+        <div class="text-center">
+            <span class="login-icon"><i class="fa-solid fa-user-lock"></i></span>
+            <div class="login-logo">ExamSystem</div>
+        </div>
+        @RenderBody()
+    </div>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

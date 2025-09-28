@@ -1,0 +1,14 @@
+﻿@model ExamSystem.Models.Question
+@{
+    ViewData["Title"] = "حذف السؤال";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<h2 class="mb-4 text-danger"><i class="fa fa-trash"></i> حذف السؤال</h2>
+<div class="alert alert-danger">
+    <h4>هل أنت متأكد أنك تريد حذف السؤال: <span class="text-dark">@Model.Text</span> ؟</h4>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> تأكيد الحذف</button>
+        <a asp-action="Index" asp-route-examId="@Model.ExamId" class="btn btn-secondary">إلغاء</a>
+    </form>
+</div>

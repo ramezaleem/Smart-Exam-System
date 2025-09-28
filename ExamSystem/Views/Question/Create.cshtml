@@ -1,0 +1,29 @@
+﻿@model ExamSystem.Models.Question
+@{
+    ViewData["Title"] = "إضافة سؤال جديد";
+    var examId = ViewBag.ExamId;
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<h2 class="mb-4 text-success"><i class="fa fa-plus-circle"></i> إضافة سؤال جديد</h2>
+<form asp-action="Create" method="post" class="card shadow p-4">
+    <input type="hidden" name="examId" value="@examId" />
+    <div class="form-group mb-3">
+        <label asp-for="Text" class="form-label">نص السؤال</label>
+        <input asp-for="Text" class="form-control" placeholder="اكتب نص السؤال هنا..." />
+        <span asp-validation-for="Text" class="text-danger"></span>
+    </div>
+    <div id="options-list">
+        @for (int i = 0 ; i < 4 ; i++)
+        {
+            <div class="input-group mb-2">
+                <span class="input-group-text">اختيار @(i + 1)</span>
+                <input type="text" name="options[@i].Text" class="form-control" placeholder="نص الاختيار" required />
+                <span class="input-group-text">
+                    <input type="checkbox" name="options[@i].IsCorrect" value="true" /> صح؟
+                </span>
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> حفظ السؤال</button>
+    <a asp-action="Index" asp-route-examId="@examId" class="btn btn-secondary">رجوع</a>
+</form>

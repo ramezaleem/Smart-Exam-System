@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ExamSystem.Models.Exam>
+@{
+    ViewData["Title"] = "كل الامتحانات";
+}
+<h2>@ViewData["Title"]</h2>
+<a class="btn btn-primary mb-3" asp-action="Create">إضافة امتحان جديد</a>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>العنوان</th>
+            <th>تاريخ البداية</th>
+            <th>تاريخ النهاية</th>
+            <th>عدد الأسئلة</th>
+            <th>إجراءات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exam in Model)
+        {
+            <tr>
+                <td>@exam.Title</td>
+                <td>@(exam.StartTime.HasValue? exam.StartTime.Value.ToString("yyyy-MM-dd HH:mm") : "غير محدد")</td>
+                <td>@(exam.EndTime.HasValue? exam.EndTime.Value.ToString("yyyy-MM-dd HH:mm") : "غير محدد")</td>
+                <td>@(exam.Questions?.Count ?? 0)</td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@exam.Id">تفاصيل</a>
+                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@exam.Id">تعديل</a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@exam.Id">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

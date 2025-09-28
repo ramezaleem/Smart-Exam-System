@@ -1,0 +1,28 @@
+﻿@model ExamSystem.Models.Question
+@{
+    ViewData["Title"] = "تعديل السؤال";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<h2 class="mb-4 text-warning"><i class="fa fa-edit"></i> تعديل السؤال</h2>
+<form asp-action="Edit" method="post" class="card shadow p-4">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group mb-3">
+        <label asp-for="Text" class="form-label">نص السؤال</label>
+        <input asp-for="Text" class="form-control" />
+        <span asp-validation-for="Text" class="text-danger"></span>
+    </div>
+    <div id="options-list">
+        @for (int i = 0 ; i < Model.Options.Count ; i++)
+        {
+            <div class="input-group mb-2">
+                <span class="input-group-text">اختيار @(i + 1)</span>
+                <input type="text" name="options[@i].Text" class="form-control" value="@Model.Options.ElementAt(i).Text" required />
+                <span class="input-group-text">
+                    <input type="checkbox" name="options[@i].IsCorrect" value="true" @(Model.Options.ElementAt(i).IsCorrect ? "checked" : "") /> صح؟
+                </span>
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> حفظ التعديلات</button>
+    <a asp-action="Index" asp-route-examId="@Model.ExamId" class="btn btn-secondary">رجوع</a>
+</form>

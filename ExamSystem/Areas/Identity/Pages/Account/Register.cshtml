@@ -1,0 +1,127 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "تسجيل حساب جديد";
+    // Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+    html, body {
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+    }
+
+    .center-bg {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .register-card {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+        padding: 32px 22px 22px 22px;
+        max-width: 400px;
+        width: 100%;
+        opacity: 0.98;
+        position: relative;
+    }
+
+    .register-title {
+        font-size: 1.7rem;
+        color: #185a9d;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-bottom: 18px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .register-title i {
+            color: #43cea2;
+            font-size: 2.2rem;
+            margin-bottom: 7px;
+        }
+
+    .input-group-text {
+        background: #f3f6fa;
+        border: none;
+    }
+
+    .form-control, .form-select {
+        border-radius: 0 8px 8px 0 !important;
+    }
+
+    .input-group {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .btn-success {
+        background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+        border: none;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+        .btn-success:hover {
+            background: linear-gradient(90deg, #185a9d 0%, #43cea2 100%);
+        }
+
+    .text-center.mt-2 a {
+        color: #185a9d;
+        font-weight: 500;
+    }
+
+        .text-center.mt-2 a:hover {
+            text-decoration: underline;
+            color: #43cea2;
+        }
+</style>
+<div class="center-bg">
+    <div class="register-card mx-auto">
+        <div class="register-title">
+            <i class="fa fa-user-plus"></i>
+            تسجيل حساب جديد
+        </div>
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+            <div class="mb-3 input-group">
+                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="البريد الإلكتروني" />
+            </div>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+            <div class="mb-3 input-group">
+                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="كلمة المرور" />
+            </div>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <div class="mb-3 input-group">
+                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="تأكيد كلمة المرور" />
+            </div>
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            <div class="mb-3 input-group">
+                <span class="input-group-text"><i class="fa fa-user-tag"></i></span>
+                <select asp-for="Input.Role" asp-items="Model.Roles" class="form-select" required>
+                    <option value="">اختر نوع المستخدم</option>
+                </select>
+            </div>
+            <span asp-validation-for="Input.Role" class="text-danger"></span>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-success mb-2"><i class="fa fa-user-plus"></i> تسجيل</button>
+            <div class="text-center mt-2">
+                <a asp-page="./Login" class="text-decoration-none"><i class="fa fa-sign-in-alt"></i> لديك حساب بالفعل؟ تسجيل الدخول</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

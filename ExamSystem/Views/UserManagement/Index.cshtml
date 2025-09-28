@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ExamSystem.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "إدارة المستخدمين";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<h2 class="mb-4 text-primary"><i class="fa fa-users"></i> إدارة المستخدمين</h2>
+<a class="btn btn-success mb-3" asp-action="Create"><i class="fa fa-user-plus"></i> إضافة مستخدم جديد</a>
+<table class="table table-striped table-hover shadow">
+    <thead class="table-primary">
+        <tr>
+            <th>الاسم</th>
+            <th>اسم المستخدم</th>
+            <th>البريد الإلكتروني</th>
+            <th>الدور</th>
+            <th>إجراءات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>@u.FullName</td>
+                <td>@u.UserName</td>
+                <td>@u.Email</td>
+                <td>
+                    @* هتحتاج تجيب الدور من UserManager في ViewModel أو ViewBag لو حبيت *@
+                </td>
+                <td>
+                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@u.Id"><i class="fa fa-edit"></i> تعديل</a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@u.Id"><i class="fa fa-trash"></i> حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Admin/Dashboard" class="btn btn-secondary mt-3"><i class="fa fa-arrow-left"></i> رجوع للوحة التحكم</a>

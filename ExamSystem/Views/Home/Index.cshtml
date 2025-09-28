@@ -1,0 +1,160 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+    html, body {
+        height: 100%;
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%) !important;
+    }
+    /* لو فيه Navbar أو عناصر فوق، خليها شفافة أو بدون Container */
+    .navbar, .container, .container-fluid {
+        background: transparent !important;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+    }
+
+    .home-hero-full {
+        min-height: 100vh;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+    }
+
+    .home-card {
+        background: #fff;
+        border-radius: 22px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+        padding: 48px 36px 36px 36px;
+        max-width: 540px;
+        width: 100%;
+        opacity: 0.98;
+        text-align: center;
+    }
+
+        .home-card .fa-graduation-cap {
+            color: #43cea2;
+            font-size: 3.2rem;
+            margin-bottom: 12px;
+        }
+
+        .home-card h1 {
+            color: #185a9d;
+            font-weight: bold;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .home-card .lead {
+            color: #444;
+            font-size: 1.15rem;
+            margin-bottom: 28px;
+        }
+
+    .home-roles {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 28px;
+    }
+
+    .home-role {
+        flex: 1;
+        margin: 0 8px;
+        background: #f3f6fa;
+        border-radius: 12px;
+        padding: 18px 0 10px 0;
+        box-shadow: 0 2px 8px 0 rgba(31,38,135,0.06);
+    }
+
+        .home-role i {
+            font-size: 2.1rem;
+            margin-bottom: 6px;
+        }
+
+        .home-role.student i {
+            color: #185a9d;
+        }
+
+        .home-role.teacher i {
+            color: #43cea2;
+        }
+
+        .home-role.admin i {
+            color: #f39c12;
+        }
+
+        .home-role span {
+            display: block;
+            font-weight: 500;
+            font-size: 1.08rem;
+            margin-top: 4px;
+            color: #222;
+        }
+
+    .btn-home {
+        background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+        border: none;
+        font-weight: bold;
+        font-size: 1.1rem;
+        padding: 12px 0;
+        width: 100%;
+        border-radius: 8px;
+        color: #fff;
+        transition: background 0.2s;
+    }
+
+        .btn-home:hover {
+            background: linear-gradient(90deg, #185a9d 0%, #43cea2 100%);
+            color: #fff;
+        }
+
+    @@media (max-width: 600px) {
+        .home-card {
+            padding: 28px 8px 24px 8px;
+        }
+
+        .home-roles {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .home-role {
+            margin: 0;
+        }
+    }
+</style>
+
+<div class="home-hero-full">
+    <div class="home-card">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <h1>مرحبًا بك في نظام الامتحانات</h1>
+        <div class="lead">منصة ذكية لإدارة الامتحانات للطلاب والمعلمين والإداريين</div>
+        <div class="home-roles mb-3">
+            <div class="home-role student">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span>طالب</span>
+            </div>
+            <div class="home-role teacher">
+                <i class="fa-solid fa-chalkboard-teacher"></i>
+                <span>مدرس</span>
+            </div>
+            <div class="home-role admin">
+                <i class="fa-solid fa-user-shield"></i>
+                <span>إداري</span>
+            </div>
+        </div>
+        <a href="/Identity/Account/Login" class="btn btn-home mt-2">
+            <i class="fa fa-sign-in-alt me-1"></i>ابدأ الآن
+        </a>
+    </div>
+</div>

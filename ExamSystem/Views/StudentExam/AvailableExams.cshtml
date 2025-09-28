@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ExamSystem.Models.Exam>
+@{
+    ViewData["Title"] = "الامتحانات المتاحة";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<h2 class="mb-4 text-primary"><i class="fa-solid fa-list-check"></i> الامتحانات المتاحة</h2>
+<div class="row">
+    @foreach (var exam in Model)
+    {
+        var hasEnded = exam.EndTime.HasValue && exam.EndTime.Value < DateTime.Now;
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow border-0 h-100 bg-gradient" style="background: linear-gradient(135deg,#e0eafc,#cfdef3);">
+                <div class="card-body">
+                    <h5 class="card-title text-dark">
+                        <i class="fa-solid fa-book-open-reader text-info"></i> @exam.Title
+                    </h5>
+                    <p>
+                        <i class="fa fa-calendar-alt text-secondary"></i> يبدأ: @(exam.StartTime.HasValue? exam.StartTime.Value.ToString("yyyy-MM-dd HH:mm") : "غير محدد")
+                    </p>
+                    <p>
+                        <i class="fa fa-clock text-secondary"></i> ينتهي: @(exam.EndTime.HasValue? exam.EndTime.Value.ToString("yyyy-MM-dd HH:mm") : "غير محدد")
+                    </p>
+
+                    @if (hasEnded)
+                    {
+                        <!-- زر معطل و عند الضغط تظهر رسالة منع -->
+                        <button class="btn btn-secondary btn-lg w-100" disabled
+                                onclick="alert('الوقت بتاع الامتحان دا خلص'); return false;" title="انتهى وقت الامتحان">
+                            <i class="fa fa-ban"></i> انتهى وقت الامتحان
+                        </button>
+                    }
+                    else
+                    {
+                        <a class="btn btn-success btn-lg w-100" asp-action="Start" asp-route-examId="@exam.Id">
+                            <i class="fa fa-play"></i> ابدأ الامتحان
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

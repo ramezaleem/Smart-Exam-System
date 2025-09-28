@@ -1,0 +1,92 @@
+﻿@model ExamSystem.Models.Exam
+@{
+    ViewData["Title"] = "بدء الامتحان";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+
+<h2 class="mb-4 text-success">
+    <i class="fa fa-play-circle"></i> بدء الامتحان:
+    <span class="badge bg-info">@Model.Title</span>
+</h2>
+
+<form id="examForm" asp-controller="StudentExam" asp-action="Submit" method="post" class="card shadow p-4">
+    <div id="warningMessage" class="alert alert-warning" style="display:none;">
+        من فضلك قم بإجابة جميع الأسئلة قبل الإرسال.
+    </div>
+
+    <input type="hidden" name="examId" value="@Model.Id" />
+
+    @for (int i = 0 ; i < Model.Questions.Count ; i++)
+    {
+        var q = Model.Questions.ElementAt(i);
+        <div class="mb-4">
+            <div class="alert alert-primary">
+                <b>سؤال @(i + 1):</b> <i class="fa fa-question-circle"></i> @q.Text
+            </div>
+            <div class="row">
+                @for (int j = 0 ; j < q.Options.Count ; j++)
+                {
+                    var opt = q.Options.ElementAt(j);
+                    <div class="col-md-6 mb-2">
+                        <div class="form-check bg-light rounded shadow-sm p-2">
+                            <input class="form-check-input" type="radio"
+                                   name="selectedOptionIds[@q.Id]"
+                                   value="@opt.Id"
+                                   id="q@q.Id-opt@opt.Id"
+                                   required />
+                            <label class="form-check-label" for="q@q.Id-opt@opt.Id">
+                                <i class="fa fa-circle text-info"></i> @opt.Text
+                            </label>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <button type="submit" class="btn btn-success btn-lg w-100">
+        <i class="fa fa-paper-plane"></i> إرسال الإجابات
+    </button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById("examForm").addEventListener("submit", function (e) {
+        var warningDiv = document.getElementById("warningMessage");
+        var radios = document.querySelectorAll("[name^='selectedOptionIds']");
+        var questionNames = {};
+        radios.forEach(function (el) { questionNames[el.name] = true; });
+
+        var allAnswered = true;
+        for (var name in questionNames) {
+            var group = document.getElementsByName(name);
+            var checked = false;
+            for (var i = 0; i < group.length; i++) {
+                if (group[i].checked) { checked = true; break; }
+            }
+            if (!checked) { allAnswered = false; break; }
+        }
+        if (!allAnswered) {
+            e.preventDefault();
+            warningDiv.style.display = 'block';
+            return;
+        } else {
+            warningDiv.style.display = 'none';
+        }
+
+        e.preventDefault();
+        Swal.fire({
+            title: 'تأكيد الإرسال',
+            text: "هل أنت متأكد من إرسال الإجابات؟ لن تستطيع تعديلها بعد الإرسال.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'نعم، إرسال',
+            cancelButtonText: 'لا، العودة'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById("examForm").submit();
+            }
+        });
+    });
+</script>

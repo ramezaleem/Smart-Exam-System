@@ -1,0 +1,25 @@
+﻿@model ExamSystem.Models.Question
+@{
+    ViewData["Title"] = "تفاصيل السؤال";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<h2 class="mb-4 text-info"><i class="fa fa-eye"></i> تفاصيل السؤال</h2>
+<div class="card shadow">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Text</h5>
+        <ul class="list-group mb-2">
+            @foreach (var opt in Model.Options)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center @(opt.IsCorrect ? "list-group-item-success" : "")">
+                    <span><i class="fa fa-check-circle text-success me-1" style="@(opt.IsCorrect ? "" : "display:none;")"></i>@opt.Text</span>
+                    @if (opt.IsCorrect)
+                    {
+                        <span class="badge bg-success">إجابة صحيحة</span>
+                    }
+                </li>
+            }
+        </ul>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="fa fa-edit"></i> تعديل</a>
+        <a asp-action="Index" asp-route-examId="@Model.ExamId" class="btn btn-secondary">رجوع</a>
+    </div>
+</div>

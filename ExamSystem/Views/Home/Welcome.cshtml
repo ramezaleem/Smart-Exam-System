@@ -1,0 +1,197 @@
+﻿@{
+    ViewData["Title"] = "مرحباً بك في المنصة";
+
+    var userName = User.Identity?.Name ?? "ضيف";
+
+    var roles = new List<string>();
+
+    if (User.Identity.IsAuthenticated)
+    {
+        roles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role)
+               .Select(c => c.Value).ToList();
+    }
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+<style>
+    body {
+        background: linear-gradient(135deg, #43cea2, #185a9d);
+    }
+
+    .welcome-container {
+        background: rgba(255,255,255,0.1);
+        border-radius: 25px;
+        padding: 40px;
+        max-width: 540px;
+        width: 100%;
+        box-shadow: 0 8px 32px rgba(31,38,135,0.37);
+        text-align: center;
+        margin: 60px auto;
+        animation: fadeIn 1s ease forwards;
+    }
+
+    .welcome-icon {
+        font-size: 6rem;
+        color: #55efc4;
+        animation: pulse 2.5s infinite;
+    }
+
+    h1 {
+        margin-top: 20px;
+        font-weight: 700;
+        font-size: 2.5rem;
+        letter-spacing: 2px;
+        text-shadow: 0 0 8px rgba(0,0,0,0.25);
+    }
+
+    .welcome-text {
+        font-size: 1.2rem;
+        margin-top: 10px;
+        color: #dfe6e9;
+        font-weight: 500;
+        margin-bottom: 30px;
+    }
+
+    .roles-container {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .role-card {
+        background: rgba(0,0,0,0.15);
+        border-radius: 20px;
+        padding: 25px 35px;
+        width: 130px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: default;
+        user-select: none;
+    }
+
+        .role-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+            background: rgba(85,239,196,0.3);
+        }
+
+    .role-icon {
+        font-size: 3.5rem;
+        margin-bottom: 15px;
+        color: #74b9ff;
+        animation: swing 3s linear infinite;
+    }
+
+    .role-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #dfe6e9;
+    }
+
+    .student .role-icon {
+        color: #0984e3;
+    }
+
+    .teacher .role-icon {
+        color: #55efc4;
+    }
+
+    .admin .role-icon {
+        color: #fd79a8;
+    }
+
+    @@keyframes pulse {
+        0%, 100%
+
+    {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px #55efc4);
+    }
+
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 20px #55efc4);
+    }
+
+    }
+
+    @@keyframes fadeIn {
+        from
+
+    {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+    }
+
+    @@keyframes swing {
+        0%, 100%
+
+    {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(15deg);
+    }
+
+    }
+
+    @@media (max-width: 600px) {
+        .roles-container
+
+    {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .role-card {
+        width: 80%;
+        max-width: 250px;
+    }
+
+    }
+</style>
+
+<div class="welcome-container">
+    <i class="fas fa-graduation-cap welcome-icon"></i>
+    <h1>مرحباً @userName</h1>
+    <div class="welcome-text">مرحباً بك في نظام الامتحانات الذكي لمنصة الطلاب، المعلمين، والإداريين</div>
+
+    <div class="roles-container">
+        @if (roles.Contains("Student"))
+        {
+            <div class="role-card student" title="طالب">
+                <i class="fas fa-user-graduate role-icon"></i>
+                <div class="role-title">طالب</div>
+            </div>
+        }
+        @if (roles.Contains("Teacher"))
+        {
+            <div class="role-card teacher" title="مدرس">
+                <i class="fas fa-chalkboard-teacher role-icon"></i>
+                <div class="role-title">مدرس</div>
+            </div>
+        }
+        @if (roles.Contains("Admin"))
+        {
+            <div class="role-card admin" title="إداري">
+                <i class="fas fa-user-shield role-icon"></i>
+                <div class="role-title">إداري</div>
+            </div>
+        }
+        @if (!User.Identity.IsAuthenticated || roles.Count == 0)
+        {
+            <div class="role-card student" title="زائر">
+                <i class="fas fa-user role-icon"></i>
+                <div class="role-title">زائر</div>
+            </div>
+        }
+    </div>
+</div>

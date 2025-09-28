@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "لوحة تحكم الأدمن";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<div class="container-fluid py-4">
+    <h2 class="mb-4 text-primary"><i class="fa-solid fa-gauge-high"></i> لوحة تحكم الأدمن</h2>
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="card shadow border-0 bg-gradient" style="background: linear-gradient(135deg,#f8ffae,#43c6ac);">
+                <div class="card-body text-center">
+                    <i class="fa fa-book fa-2x text-success mb-2"></i>
+                    <h4 class="card-title">الامتحانات</h4>
+                    <span class="display-5 fw-bold">@ViewBag.ExamsCount</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow border-0 bg-gradient" style="background: linear-gradient(135deg,#fbc2eb,#a6c1ee);">
+                <div class="card-body text-center">
+                    <i class="fa fa-chalkboard-teacher fa-2x text-info mb-2"></i>
+                    <h4 class="card-title">المدرسين</h4>
+                    <span class="display-5 fw-bold">@ViewBag.TeachersCount</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow border-0 bg-gradient" style="background: linear-gradient(135deg,#fad0c4,#ffd1ff);">
+                <div class="card-body text-center">
+                    <i class="fa fa-user-graduate fa-2x text-warning mb-2"></i>
+                    <h4 class="card-title">الطلاب</h4>
+                    <span class="display-5 fw-bold">@ViewBag.StudentsCount</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow border-0 bg-gradient" style="background: linear-gradient(135deg,#cfd9df,#e2ebf0);">
+                <div class="card-body text-center">
+                    <i class="fa fa-question fa-2x text-danger mb-2"></i>
+                    <h4 class="card-title">الأسئلة</h4>
+                    <span class="display-5 fw-bold">@ViewBag.QuestionsCount</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <a href="/Admin/Teachers" class="btn btn-info btn-lg w-100 mb-3"><i class="fa fa-chalkboard-teacher"></i> إدارة المدرسين</a>
+        </div>
+        <div class="col-md-6">
+            <a href="/Admin/Students" class="btn btn-warning btn-lg w-100 mb-3"><i class="fa fa-user-graduate"></i> إدارة الطلاب</a>
+        </div>
+    </div>
+</div>
