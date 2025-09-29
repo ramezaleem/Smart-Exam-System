@@ -5,12 +5,31 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
 
+<style>
+    #timer {
+        position: fixed;
+        top: 20px;
+        right: 30px;
+        background: #17a2b8;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        box-shadow: 0 0 10px rgba(23, 162, 184, 0.5);
+        z-index: 1050;
+        user-select: none;
+    }
+</style>
+
 <h2 class="mb-4 text-success">
     <i class="fa fa-play-circle"></i> بدء الامتحان:
     <span class="badge bg-info">@Model.Title</span>
 </h2>
 
-<form id="examForm" asp-controller="StudentExam" asp-action="Submit" method="post" class="card shadow p-4">
+<div id="timer" aria-live="polite" aria-atomic="true">الوقت المتبقي: --:--:--</div>
+
+<form id="examForm" asp-controller="StudentExam" asp-action="Submit" method="post" class="card shadow p-4 mt-5">
     <div id="warningMessage" class="alert alert-warning" style="display:none;">
         من فضلك قم بإجابة جميع الأسئلة قبل الإرسال.
     </div>
@@ -52,6 +71,32 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    // حساب الوقت الكلي بناءً على الفارق بين EndTime و StartTime من الخادم
+    var startTime = new Date('@Model.StartTime?.ToString("o")');
+    var endTime = new Date('@Model.EndTime?.ToString("o")');
+
+    function updateTimer() {
+        var now = new Date();
+        var remaining = endTime - now;
+
+        if (remaining <= 0) {
+            document.getElementById('timer').textContent = 'انتهى وقت الامتحان';
+            // يمكن قفل النموذج أو إعادة التوجيه بعد انتهاء الوقت
+            document.getElementById('examForm').querySelector('button[type="submit"]').disabled = true;
+            clearInterval(timerInterval);
+            return;
+        }
+
+        var hours = Math.floor(remaining / (1000 * 60 * 60));
+        var minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+        document.getElementById('timer').textContent = `الوقت المتبقي: ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    updateTimer();
+    var timerInterval = setInterval(updateTimer, 1000);
+
     document.getElementById("examForm").addEventListener("submit", function (e) {
         var warningDiv = document.getElementById("warningMessage");
         var radios = document.querySelectorAll("[name^='selectedOptionIds']");

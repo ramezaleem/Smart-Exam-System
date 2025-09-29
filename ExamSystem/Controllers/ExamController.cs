@@ -1,6 +1,8 @@
 ﻿using ExamSystem.Data;
 using ExamSystem.Models;
+using ExamSystem.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,9 +12,11 @@ namespace ExamSystem.Controllers
     public class ExamController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public ExamController ( ApplicationDbContext context )
+        private readonly UserManager<ApplicationUser> _userManager;
+        public ExamController ( ApplicationDbContext context, UserManager<ApplicationUser> userManager )
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Exam
@@ -115,5 +119,63 @@ namespace ExamSystem.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> StudentScores ( int examId )
+        {
+            var exam = await _context.Exams
+                .Include(e => e.Questions)
+                .FirstOrDefaultAsync(e => e.Id == examId);
+
+            if (exam == null)
+                return NotFound();
+
+            var teacherId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            var students = await _userManager.GetUsersInRoleAsync("Student");
+
+            var studentExamScores = await _context.StudentExams
+                .Where(se => se.ExamId == examId)
+                .ToListAsync();
+
+            int totalQuestions = exam.Questions?.Count ?? 0;
+
+            var studentScoresList = students.Select(s =>
+            {
+                var scoreRecord = studentExamScores.FirstOrDefault(se => se.StudentId == s.Id);
+
+                double? percentage = null;
+                if (scoreRecord != null && totalQuestions > 0)
+                {
+                    percentage = ((double)scoreRecord.Score / totalQuestions) * 100;
+                }
+
+                return new StudentScoreItem
+                {
+                    StudentName = s.UserName,
+                    Score = scoreRecord?.Score,
+                    Status = (scoreRecord != null && scoreRecord.Score > 0) ? "امتحن" : "لم يمتحن بعد",
+                    Percentage = percentage
+                };
+            }).ToList();
+
+            var totalStudents = students.Count;
+            var studentsTaken = studentScoresList.Count(ss => ss.Score > 0);
+            var percentageTaken = totalStudents == 0 ? 0 : (studentsTaken * 100) / totalStudents;
+
+            var viewModel = new ExamScoresViewModel
+            {
+                ExamTitle = exam.Title,
+                TotalStudents = totalStudents,
+                StudentsTaken = studentsTaken,
+                PercentageTaken = percentageTaken,
+                StudentScores = studentScoresList
+            };
+
+            return View(viewModel);
+        }
+
+
+
+
+
     }
 }

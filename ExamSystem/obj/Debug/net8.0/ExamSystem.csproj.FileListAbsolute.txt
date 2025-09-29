@@ -162,7 +162,6 @@ E:\ExamSystem\ExamSystem\obj\Debug\net8.0\staticwebassets.build.json
 E:\ExamSystem\ExamSystem\obj\Debug\net8.0\staticwebassets.build.json.cache
 E:\ExamSystem\ExamSystem\obj\Debug\net8.0\staticwebassets.development.json
 E:\ExamSystem\ExamSystem\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-E:\ExamSystem\ExamSystem\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 E:\ExamSystem\ExamSystem\obj\Debug\net8.0\ExamSystem.csproj.Up2Date
 E:\ExamSystem\ExamSystem\obj\Debug\net8.0\ExamSystem.dll
 E:\ExamSystem\ExamSystem\obj\Debug\net8.0\refint\ExamSystem.dll
@@ -318,3 +317,5 @@ E:\ExamSystem\ExamSystem\bin\Debug\net8.0\runtimes\win-arm64\native\e_sqlite3.dl
 E:\ExamSystem\ExamSystem\bin\Debug\net8.0\runtimes\win-x64\native\e_sqlite3.dll
 E:\ExamSystem\ExamSystem\bin\Debug\net8.0\runtimes\win-x86\native\e_sqlite3.dll
 E:\ExamSystem\ExamSystem\obj\Debug\net8.0\ExamSystem.MvcApplicationPartsAssemblyInfo.cs
+E:\ExamSystem\ExamSystem\obj\Debug\net8.0\ExamSystem.sourcelink.json
+E:\ExamSystem\ExamSystem\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

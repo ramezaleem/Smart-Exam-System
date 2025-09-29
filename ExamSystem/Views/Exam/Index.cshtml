@@ -2,32 +2,66 @@
 @{
     ViewData["Title"] = "كل الامتحانات";
 }
-<h2>@ViewData["Title"]</h2>
-<a class="btn btn-primary mb-3" asp-action="Create">إضافة امتحان جديد</a>
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>العنوان</th>
-            <th>تاريخ البداية</th>
-            <th>تاريخ النهاية</th>
-            <th>عدد الأسئلة</th>
-            <th>إجراءات</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var exam in Model)
-        {
-            <tr>
-                <td>@exam.Title</td>
-                <td>@(exam.StartTime.HasValue? exam.StartTime.Value.ToString("yyyy-MM-dd HH:mm") : "غير محدد")</td>
-                <td>@(exam.EndTime.HasValue? exam.EndTime.Value.ToString("yyyy-MM-dd HH:mm") : "غير محدد")</td>
-                <td>@(exam.Questions?.Count ?? 0)</td>
-                <td>
-                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@exam.Id">تفاصيل</a>
-                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@exam.Id">تعديل</a>
-                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@exam.Id">حذف</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<div class="container my-5">
+    <h2 class="mb-4 text-center text-primary border-bottom pb-2">@ViewData["Title"]</h2>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a class="btn btn-lg btn-primary shadow-sm" asp-action="Create">
+            إضافة امتحان جديد
+        </a>
+    </div>
+
+    <div class="table-responsive shadow rounded">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-primary text-center text-uppercase small">
+                <tr>
+                    <th class="fw-bold">العنوان</th>
+                    <th class="fw-bold">تاريخ البداية</th>
+                    <th class="fw-bold">تاريخ النهاية</th>
+                    <th class="fw-bold">عدد الأسئلة</th>
+                    <th class="fw-bold">الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var exam in Model)
+                {
+                    <tr>
+                        <td>@exam.Title</td>
+                        <td class="text-center">
+                            @(
+                                                    exam.StartTime.HasValue
+                                                    ? exam.StartTime.Value.ToString("yyyy-MM-dd HH:mm")
+                                                    : Html.Raw("<span class='text-muted'>غير محدد</span>")
+                                                    )
+                        </td>
+                        <td class="text-center">
+                            @(
+                                                    exam.EndTime.HasValue
+                                                    ? exam.EndTime.Value.ToString("yyyy-MM-dd HH:mm")
+                                                    : Html.Raw("<span class='text-muted'>غير محدد</span>")
+                                                    )
+                    </td>
+                    <td class="text-center">@exam.Questions?.Count</td>
+                    <td class="text-center">
+                        <a class="btn btn-info btn-sm me-1 px-3" asp-action="Details" asp-route-id="@exam.Id" title="تفاصيل الامتحان">
+                            تفاصيل
+                        </a>
+                        <a class="btn btn-warning btn-sm me-1 px-3" asp-action="Edit" asp-route-id="@exam.Id" title="تعديل الامتحان">
+                            تعديل
+                        </a>
+                        <a class="btn btn-danger btn-sm me-1 px-3" asp-action="Delete" asp-route-id="@exam.Id" title="حذف الامتحان"
+                           onclick="return confirm('هل أنت متأكد من حذف هذا الامتحان؟');">
+                            حذف
+                        </a>
+                        <a class="btn btn-secondary btn-sm px-3" asp-action="StudentScores" asp-route-examId="@exam.Id" title="عرض درجات الطلاب">
+                            درجات الطلاب
+                        </a>
+                    </td>
+                </tr>
+                                }
+            </tbody>
+        </table>
+    </div>
+</div>
